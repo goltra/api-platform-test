@@ -1,0 +1,1 @@
+FROM mariadb:10.5.5 as mariadb_cjl

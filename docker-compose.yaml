@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  apache:
+    # Nota: Revisar docker/virtualhost.conf para ver todos los hosts que se exponen
+    build: ./docker/apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/virtualhost.conf:/etc/apache2/sites-available/000-default.conf
+    container_name: apache_symfony
+
+
+  mariadb:
+    #        build: docker/mariadb
+    image: mariadb:10.5.5
+    environment:
+      - MYSQL_DATABASE=symfony_db
+      - MYSQL_ROOT_PASSWORD=goltratec-root-password
+      - MYSQL_USER=goltratec-dev-db-user
+      - MYSQL_PASSWORD=goltratec-dev-db-password
+    volumes:
+      - ./docker/mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "8087:3306"
+    container_name: mariadb_symfony
